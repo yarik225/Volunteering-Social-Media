@@ -6,6 +6,7 @@ var eventPopup = document.querySelector("#newEventPopup");
 
 function showEventPopup() {
     eventPopup.setAttribute("style", "");
+    fixdatesize();
 }
 function hideEventPopup() {
     eventPopup.setAttribute("style", "display: none");
@@ -36,7 +37,7 @@ if(!eventPopup) {
             </div>   
             <div class="newEventPopupText">Time:</div>
             <div class="newEventPopupInputContainer">
-                <div id="newEventPopupForumTime" class="newEventPopupInput" data-placeholder="When's it happening?" contenteditable="true"></div>
+                <input id="newEventPopupForumTime" class="newEventPopupInput" type="datetime-local">
             </div>     
             <div class="newEventPopupText">Place:</div>
             <div class="newEventPopupInputContainer">
@@ -55,4 +56,12 @@ for(var i of document.querySelectorAll(".newEventPopupInput")) {
         if(replaceInner) e.target.innerHTML = "";
     })
 }
+function fixdatesize() {
+    document.getElementById("newEventPopupForumTime").style.setProperty("height",  `calc(${document.getElementById("newEventPopupForumPlace").getBoundingClientRect().height}px - calc(2 * max(0.5vh, 0.5vw)))`);
+}
+function onresizee() {
+    fixdatesize();
+}
+document.addEventListener("resize", onresizee);
+onresizee();
 //showEventPopup()

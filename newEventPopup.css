@@ -35,9 +35,15 @@
 
 .newEventPopupInput {
     padding: max(0.5vh, 0.5vw);
+    border: none;
     border-radius: max(1vh, 1vw);
     background-color: white;
-    
+    width: 100%;
+}
+
+input.newEventPopupInput::before {
+    display: none;
+    height: 100%;
 }
 .newEventPopupInputContainer {
     margin-bottom: 1em;
