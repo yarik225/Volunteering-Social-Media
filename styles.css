@@ -1,0 +1,259 @@
+:root {
+    --shs-green: #2d5a27;
+    --shs-gold: #f7d46c;
+    --bg-cream: #fff9d6;
+    --card-gold: #fce88d;
+    --footer-green: #6a8e63;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: var(--bg-cream);
+    overflow-x: hidden;
+}
+
+/* Header */
+.header {
+    background-color: var(--shs-green);
+    color: white;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+.nav-links {
+    margin-top: 5px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.nav-links a.active {
+    border-bottom: 4px solid white;
+    padding-bottom: 2px;
+}
+
+.logo {
+    height: 80px;
+    /* Positioned slightly over the gold bar like the image */
+    margin-bottom: -15px; 
+}
+
+.search-bar {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    width: 220px;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    color: white;
+    margin-left: 10px;
+    outline: none;
+}
+
+.search-bar input::placeholder { color: #eee; }
+
+.gold-divider {
+    height: 12px;
+    background-color: var(--shs-gold);
+}
+
+/* Main Content */
+.main-content {
+    padding: 30px;
+}
+
+.event-group h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.card-grid {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background-color: var(--card-gold);
+    width: 220px;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.card-title {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.flyer-box {
+    background-color: #fffdf0;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border: 1px solid #e2d18a;
+}
+
+/* Bottom Bar & FAB */
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--footer-green);
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.footer-left i {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.fab-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 15px;
+}
+
+.fab-button {
+    background-color: #1e3a1a;
+    color: white;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    border: 6px solid var(--bg-cream); /* Matching background to look "inset" */
+    cursor: pointer;
+}
+
+/* Modal Background */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dimmed background */
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Modal Box */
+.modal-content {
+    background-color: #fce88d; /* Same gold as cards */
+    width: 500px;
+    padding: 30px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.modal-content h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.5rem;
+}
+
+/* Form Styling */
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    width: 120px;
+    font-weight: bold;
+}
+
+.underline { text-decoration: underline; color: #007bff; }
+
+.form-group input[type="text"] {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+}
+
+/* Upload Box */
+.flyer-group { align-items: flex-start; }
+
+.upload-box {
+    background-color: white;
+    flex: 1;
+    height: 150px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #eee;
+}
+
+.upload-box i { font-size: 2.5rem; margin-bottom: 10px; }
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Submit Button */
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background-color: var(--shs-green);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.submit-btn:hover {
+    background-color: #244e1f;
+}
+
+/* Class to show modal via JavaScript */
+.modal-overlay.active { display: flex; }
