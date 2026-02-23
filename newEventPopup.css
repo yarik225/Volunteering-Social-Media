@@ -1,0 +1,64 @@
+#newEventPopup {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: 1001;
+}
+
+#newEventPopupInner {
+    height: min(60vh, 100vw);
+    width: 70vw;
+    background-color: #FBE68C;
+    border-radius: max(1.5vh, 1.5vw);
+    padding: max(2vh, 2vw);
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+#newEventPopupInner::-webkit-scrollbar {
+    display: none;
+}
+
+.newEventPopupText {
+    margin-top: max(0.5vh, 0.5vw);
+    margin-right: max(0.5vh, 0.5vw);
+    margin-bottom: calc(1em + max(1vh, 1vw));
+    align-self: start;
+    grid-column: 1;
+}
+
+.newEventPopupInput {
+    padding: max(0.5vh, 0.5vw);
+    border-radius: max(1vh, 1vw);
+    background-color: white;
+    
+}
+.newEventPopupInputContainer {
+    margin-bottom: 1em;
+    grid-column: 2;
+}
+.newEventPopupInput::before {
+    content: attr(data-placeholder);
+    pointer-events: none;
+    color: #D1D1D1;
+}
+
+.newEventPopupInput.hideBefore::before {
+    display: none;
+}
+
+.newEventPopupInputGroup {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.newEventPopupHeader {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
