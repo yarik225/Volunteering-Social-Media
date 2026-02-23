@@ -5,9 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHS Volunteering</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    
+
+    <header class="header">
+        <div class="nav-container">
+            <div class="brand">
+                <h1>SHS Volunteering</h1>
+                <div class="nav-links">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="#">Events</a>
+                    <a href="profile.html">Profile</a>
+                </div>
+            </div>
+            
+            <div class="logo-container">
+                <img src="patriot-logo.png" alt="SHS Logo" class="logo">
+            </div>
+
+            <div class="search-bar">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="search...">
+            </div>
+        </div>
+        <div class="gold-divider"></div>
+    </header>
+
+    <main class="main-content">
+        <section class="event-group" id="yourEvents">
+            <h2>Your Events:</h2>
+            <div class="card-grid">
+                <!-- your events will appear here -->
+            </div>
+        </section>
+
+        <section class="event-group">
+            <h2>Opportunities For You:</h2>
+            <div class="card-grid">
+                <!-- opportunity cards could go here if you implement them later -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="bottom-bar">
+        <i class="fa-regular fa-comment-dots"></i>
+        <div class="fab-container">
+            <button class="fab-button">+</button>
+        </div>
+        <i class="fa-regular fa-bookmark"></i>
+    </footer>
+    <div class="modal-overlay" id="eventModal">
+    <div class="modal-content">
+        <h2>New Event</h2>
+        
+        <div class="form-group">
+            <label>Title:</label>
+            <input type="text" id="eventTitle" placeholder="|">
+        </div>
+
+        <div class="form-group">
+            <label class="underline">Time:</label>
+            <input type="text" id="eventTime" placeholder="00:00-00:00">
+        </div>
+
+        <div class="form-group flyer-group">
+            <label>Flyer Upload:</label>
+            <div class="upload-box" id="uploadBox">
+                <i class="fa-solid fa-upload"></i>
+                <span id="uploadText">Upload file here</span>
+                <input type="file" hidden id="fileInput">
+            </div>
+        </div>
+        
+        <button class="submit-btn" id="submitEvent">Create Event</button>
+        <button class="close-btn" id="closeModal">×</button>
+    </div>
+</div>
     <script src="script.js"></script>
 </body>
 </html>
