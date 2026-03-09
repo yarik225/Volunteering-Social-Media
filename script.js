@@ -28,7 +28,7 @@ function displayData(targetDivId, data) {
 
     rows.forEach(row => {
         const item = document.createElement("div");
-        item.className = "YOUR-CLASS-NAME-HERE";
+        item.className = "row";
 
 
         // row[#] is getting the column # at a selected row
