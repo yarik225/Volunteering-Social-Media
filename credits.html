@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHS Volunteering - Credits</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .credits-container {
+            flex: 1;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem 100px;
+            width: 100%;
+        }
+
+        .credits-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .credits-header h2 {
+            font-size: 2.2rem;
+            color: #2b5229;
+            margin-bottom: 0.5rem;
+        }
+
+        .credits-header p {
+            color: #666;
+            font-size: 1.05rem;
+        }
+
+        .credits-list {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .credits-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .credits-list li {
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .credits-list li:last-child {
+            border-bottom: none;
+        }
+
+        .credits-list li:hover {
+            background: #f9fdf9;
+        }
+
+        .credit-name {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #2b5229;
+        }
+
+        .credit-role {
+            font-size: 0.9rem;
+            color: #888;
+            white-space: nowrap;
+        }
+
+        .repo-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #2b5229, #3a7435);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 2rem;
+        }
+
+        .repo-banner:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(43, 82, 41, 0.3);
+        }
+
+        .repo-banner i {
+            font-size: 1.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .credits-list li {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="brand">
+                <h1>SHS Volunteering</h1>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="#">Events</a>
+                    <a href="profile.html">Profile</a>
+                    <a href="credits.html" class="active">Credits</a>
+                </div>
+            </div>
+            <div class="logo-container">
+                <img src="patriot-logo.png" alt="SHS Logo" class="logo">
+            </div>
+            <div class="search-bar">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="search...">
+            </div>
+        </div>
+        <div class="gold-divider"></div>
+    </header>
+
+    <main class="credits-container">
+        <div class="credits-header">
+            <h2>Credits</h2>
+            <p>The people behind SHS Volunteering</p>
+        </div>
+
+        <div class="credits-list">
+            <ul>
+                <!--
+                    ==========================================
+                    TO ADD A PERSON:
+                    Copy one of the <li> blocks below and
+                    change the name and role.
+
+                    TO REMOVE: delete the entire <li> block.
+                    ==========================================
+                -->
+                <li>
+                    <span class="credit-name">Yarik Shkolnik</span>
+                    <span class="credit-role">Developer</span>
+                </li>
+                <li>
+                    <span class="credit-name">Hemanth &amp; Likhith</span>
+                    <span class="credit-role">Contributors</span>
+                </li>
+                <li>
+                    <span class="credit-name">Pawnshurricane5000</span>
+                    <span class="credit-role">Contributor</span>
+                </li>
+                <!-- ADD MORE PEOPLE HERE -->
+            </ul>
+        </div>
+
+        <a href="https://github.com/yarik225/Volunteering-Social-Media" target="_blank" class="repo-banner">
+            <i class="fa-brands fa-github"></i>
+            View on GitHub
+        </a>
+    </main>
+
+    <footer class="bottom-bar">
+        <i class="fa-regular fa-comment-dots"></i>
+        <div class="fab-container">
+            <button class="fab-button">+</button>
+        </div>
+        <i class="fa-regular fa-bookmark"></i>
+    </footer>
+</body>
+</html>
