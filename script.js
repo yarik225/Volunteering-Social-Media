@@ -1,3 +1,7 @@
+const API_KEY = "AIzaSyCGh11mVrfvEYEY--H8D4THUxPC2axbjeM"; //Jungmin Lee's Google Sheets API key
+const SPREADSHEET_ID = "11mestl91E6M6gFYVKHqBTtW6R-jzMWajS0qpzalra4w"; //CS Rooms spreadsheet
+const SHEET_NAME = "Sheet1!A1:F64";
+
 const fabButton = document.querySelector('.fab-button');
 const modal = document.getElementById('eventModal');
 const closeModal = document.getElementById('closeModal');
@@ -89,6 +93,20 @@ submitBtn.addEventListener('click', () => {
     modal.classList.remove('active');
 });
 
+async function fetchSheetData() {
+    try {
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+
+
+        const response = await fetch(url);
+        const json = await response.json();
+
+
+        return json.values || [];
+    } catch (error) {
+        console.error("Error fetching sheet:", error);
+        return [];
+    }
 }
 
 function displayData(targetDivId, data) {
