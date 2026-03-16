@@ -12,7 +12,6 @@
             box-sizing: border-box;
         }
 
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: #f5f5f5;
@@ -21,13 +20,12 @@
             flex-direction: column;
         }
 
-
+        /* Header Styles */
         .header {
             background: #2b5229;
             color: white;
             padding: 1rem 2rem;
         }
-
 
         .nav-container {
             display: flex;
@@ -38,19 +36,16 @@
             margin: 0 auto;
         }
 
-
         .brand h1 {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
-
 
         .nav-links {
             display: flex;
             gap: 1.5rem;
             margin-top: 0.5rem;
         }
-
 
         .nav-links a {
             color: white;
@@ -59,23 +54,15 @@
             transition: opacity 0.2s;
         }
 
-
         .nav-links a:hover,
         .nav-links a.active {
             opacity: 1;
         }
 
-
-        .logo-container {
-            flex-shrink: 0;
-        }
-
-
         .logo {
             height: 100px;
             width: auto;
         }
-
 
         .search-bar {
             display: flex;
@@ -86,12 +73,10 @@
             min-width: 200px;
         }
 
-
         .search-bar i {
             margin-right: 0.5rem;
             opacity: 0.7;
         }
-
 
         .search-bar input {
             background: transparent;
@@ -101,11 +86,9 @@
             width: 100%;
         }
 
-
         .search-bar input::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
-
 
         .gold-divider {
             height: 4px;
@@ -113,15 +96,15 @@
             margin-top: 1rem;
         }
 
-
+        /* Profile Content Styles */
         .profile-container {
             flex: 1;
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 2rem;
             width: 100%;
+            margin-bottom: 100px; /* Space for fixed bottom bar */
         }
-
 
         .user-info {
             display: flex;
@@ -134,7 +117,6 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-
         .pfp-circle {
             width: 120px;
             height: 120px;
@@ -144,29 +126,10 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.2rem;
             cursor: pointer;
-            position: relative;
-            transition: opacity 0.2s ease;
             overflow: hidden;
+            position: relative;
         }
-
-
-        .pfp-circle:hover {
-            opacity: 0.8;
-        }
-
-
-        .pfp-circle:hover::after {
-            content: '📷';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 32px;
-            z-index: 2;
-        }
-
 
         .user-details h2 {
             font-size: 2rem;
@@ -174,12 +137,10 @@
             margin-bottom: 0.5rem;
         }
 
-
         .user-details p {
             color: #666;
             font-size: 1.1rem;
         }
-
 
         .saved-section h3 {
             font-size: 1.8rem;
@@ -187,114 +148,151 @@
             margin-bottom: 1.5rem;
         }
 
-
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
 
-
         .card {
             background: white;
             border-radius: 12px;
             height: 200px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-        }
-
-
+        /* --- MATCHING HOME PAGE BOTTOM BAR --- */
         .bottom-bar {
             background: white;
-            padding: 1rem 2rem;
+            padding: 1rem;
             box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: space-around;
+            justify-content: center; 
             align-items: center;
-            position: sticky;
+            position: fixed;
             bottom: 0;
+            width: 100%;
+            z-index: 100;
+            gap: 80px; 
         }
-
-
-        .bottom-bar i {
-            font-size: 24px;
-            color: #2b5229;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-
-        .bottom-bar i:hover {
-            color: #10b981;
-        }
-
 
         .fab-container {
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-
         .fab-button {
-            width: 56px;
-            height: 56px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background: linear-gradient(135deg, #2b5229, #10b981);
             border: none;
             color: white;
             font-size: 32px;
-            font-weight: 300;
-            line-height: 1;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0;
-            margin-top: -28px;
+            margin-top: -40px; 
         }
 
-
-        .fab-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        #openReportModal {
+            font-size: 26px;
+            color: #2b5229;
+            cursor: pointer;
+            transition: color 0.2s;
         }
 
-
-        .fab-button:active {
-            transform: scale(0.95);
+        #openReportModal:hover {
+            color: #dc3545;
         }
 
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        /* Matching Yellow Alert Box for Report */
+        .modal-content {
+            background-color: #fce88d;
+            width: 500px;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 2px solid #dc3545;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            width: 120px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #dc3545;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+        }
 
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-
-            .user-info {
-                flex-direction: column;
-                text-align: center;
-            }
-
-
-            .card-grid {
-                grid-template-columns: 1fr;
-            }
+            .nav-container { flex-direction: column; gap: 1rem; }
+            .user-info { flex-direction: column; text-align: center; }
+            .card-grid { grid-template-columns: 1fr; }
         }
- </style>
+    </style>
 </head>
 <body>
+
     <header class="header">
         <div class="nav-container">
             <div class="brand">
@@ -315,6 +313,7 @@
         </div>
         <div class="gold-divider"></div>
     </header>
+
     <main class="profile-container">
         <section class="user-info">
             <div class="pfp-circle" id="pfpCircle">
@@ -327,6 +326,7 @@
                 <p>Class of 2027</p>
             </div>
         </section>
+
         <section class="saved-section">
             <h3>Saved</h3>
             <div class="card-grid">
@@ -336,27 +336,46 @@
             </div>
         </section>
     </main>
+
     <footer class="bottom-bar">
-        <i class="fa-regular fa-comment-dots"></i>
+        <div style="width: 26px;"></div> 
+
         <div class="fab-container">
-            <button class="fab-button">+</button>
+            <button class="fab-button" onclick="location.href='index.html'">+</button>
         </div>
-        <i class="fa-regular fa-bookmark"></i>
+
+        <i class="fa-solid fa-circle-exclamation" id="openReportModal" title="Report Feedback"></i>
     </footer>
 
+    <div class="modal-overlay" id="reportModal">
+        <div class="modal-content">
+            <h2>Report Feedback</h2>
+            <br>
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" id="reportName" placeholder="Your Name">
+            </div>
+
+            <div class="form-group" style="align-items: flex-start;">
+                <label>Error/Issue:</label>
+                <textarea id="reportError" placeholder="Describe the error..." style="height: 100px; resize: none;"></textarea>
+            </div>
+            
+            <button class="submit-btn" id="submitReport">Send Report</button>
+            <button class="close-btn" id="closeReportModal">×</button>
+        </div>
+    </div>
 
     <script>
-        // Photo upload functionality
+        // PFP Upload Logic
         const pfpCircle = document.getElementById('pfpCircle');
         const photoUpload = document.getElementById('photoUpload');
         const profileImage = document.getElementById('profileImage');
         const pfpText = document.getElementById('pfpText');
 
-
         pfpCircle.addEventListener('click', () => {
             photoUpload.click();
         });
-
 
         photoUpload.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -370,13 +389,48 @@
                 reader.readAsDataURL(file);
             }
         });
+
+        // Report Modal Logic
+        const reportModal = document.getElementById('reportModal');
+        const openReportBtn = document.getElementById('openReportModal');
+        const closeReportBtn = document.getElementById('closeReportModal');
+        const submitReportBtn = document.getElementById('submitReport');
+
+        openReportBtn.addEventListener('click', () => {
+            reportModal.classList.add('active');
+        });
+
+        closeReportBtn.addEventListener('click', () => {
+            reportModal.classList.remove('active');
+        });
+
+        submitReportBtn.addEventListener('click', () => {
+            const name = document.getElementById('reportName').value.trim();
+            const error = document.getElementById('reportError').value.trim();
+            const myEmail = "your-email@example.com"; // Set your actual email here
+
+            if (!name || !error) {
+                alert('Please fill out both fields.');
+                return;
+            }
+
+            const subject = encodeURIComponent(`Profile Bug Report: ${name}`);
+            const body = encodeURIComponent(`User: ${name}\n\nIssue:\n${error}`);
+            
+            window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
+
+            // Reset and close
+            document.getElementById('reportName').value = '';
+            document.getElementById('reportError').value = '';
+            reportModal.classList.remove('active');
+        });
+
+        // Close on clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === reportModal) {
+                reportModal.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
