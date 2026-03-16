@@ -15,7 +15,7 @@
                 <h1>SHS Volunteering</h1>
                 <div class="nav-links">
                     <a href="index.html" class="active">Home</a>
-                    <a href="#">Events</a>
+                    <a href="credits.html">Credits</a>
                     <a href="profile.html">Profile</a>
                 </div>
             </div>
@@ -36,14 +36,12 @@
         <section class="event-group" id="yourEvents">
             <h2>Your Events:</h2>
             <div class="card-grid">
-                <!-- your events will appear here -->
-            </div>
+                </div>
         </section>
 
         <section class="event-group">
             <h2>Opportunities For You:</h2>
             <div class="card-grid">
-                <!-- opportunity cards could go here if you implement them later -->
                  <div id="opportunities"></div>
             </div>
         </section>
@@ -56,33 +54,34 @@
         </div>
         <i class="fa-regular fa-bookmark"></i>
     </footer>
+
     <div class="modal-overlay" id="eventModal">
-    <div class="modal-content">
-        <h2>New Event</h2>
-        
-        <div class="form-group">
-            <label>Title:</label>
-            <input type="text" id="eventTitle" placeholder="|">
-        </div>
-
-        <div class="form-group">
-            <label class="underline">Time:</label>
-            <input type="text" id="eventTime" placeholder="00:00-00:00">
-        </div>
-
-        <div class="form-group flyer-group">
-            <label>Flyer Upload:</label>
-            <div class="upload-box" id="uploadBox">
-                <i class="fa-solid fa-upload"></i>
-                <span id="uploadText">Upload file here</span>
-                <input type="file" hidden id="fileInput">
+        <div class="modal-content">
+            <h2>New Event</h2>
+            
+            <div class="form-group">
+                <label>Title:</label>
+                <input type="text" id="eventTitle" placeholder="|">
             </div>
+
+            <div class="form-group">
+                <label class="underline">Time:</label>
+                <input type="text" id="eventTime" placeholder="00:00-00:00">
+            </div>
+
+            <div class="form-group flyer-group">
+                <label>Flyer Upload:</label>
+                <div class="upload-box" id="uploadBox">
+                    <i class="fa-solid fa-upload"></i>
+                    <span id="uploadText">Upload file here</span>
+                    <input type="file" hidden id="fileInput">
+                </div>
+            </div>
+            
+            <button class="submit-btn" id="submitEvent">Create Event</button>
+            <button class="close-btn" id="closeModal">×</button>
         </div>
-        
-        <button class="submit-btn" id="submitEvent">Create Event</button>
-        <button class="close-btn" id="closeModal">×</button>
     </div>
-</div>
-    <script src="/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
