@@ -305,3 +305,37 @@ body {
 /* Class to show modal via JavaScript */
 .modal-overlay.active { display: flex; }
 
+@import url("https://use.typekit.net/dma7wty.css");
+
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: "Comic Sans", "Comic Sans MS";
+}
+
+.events {
+    width: 100vw;
+    text-align: center;
+}
+
+.event {
+    display: inline-block;
+    margin: max(3vh, 3vw);
+    background-color: var(--card-gold);
+    border-radius: max(1.5vh, 1.5vw);
+    padding: max(1vh, 1vw);
+    width: max(20vw, 20vh);
+    transform-style: preserve-3d;
+    transition: scale 0.4s linear;
+}
+
+.event-image {
+    margin-top: max(1vh, 1vw);
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-color: var(--card-gold);
+    border-radius: max(1.5vh, 1.5vw);
+}
