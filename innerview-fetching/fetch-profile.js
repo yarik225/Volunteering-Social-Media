@@ -123,6 +123,7 @@ function parseInnerViewProfilePage(pageHTML) {
 }
 
 // Use corsproxy.io to fetch the profile information
+// NOTICE - corsproxy.io doesn't work, we need a different backend.
 /**
  * @param {string} innerViewUsername
  * @returns {object} The profile information as an object, if able to fetch profile. The `error` key-value pair tells you whether there was an error. The userError key-value pair is either null or a string, and it is the error string to present to the end user.
