@@ -1,10 +1,12 @@
-const API_KEY = "AIzaSyCGh11mVrfvEYEY--H8D4THUxPC2axbjeM"; //Jungmin Lee's Google Sheets API key
-const SPREADSHEET_ID = "11mestl91E6M6gFYVKHqBTtW6R-jzMWajS0qpzalra4w"; //CS Rooms spreadsheet
+
+const API_KEY = "AIzaSyCGh11mVrfvEYEY--H8D4THUxPC2axbjeM"; 
+const SPREADSHEET_ID = "11mestl91E6M6gFYVKHqBTtW6R-jzMWajS0qpzalra4w"; 
 const SHEET_NAME = "Sheet1!A1:F64";
 
-const fabButton = document.querySelector('.fab-button');
-const modal = document.getElementById('eventModal');
-const closeModal = document.getElementById('closeModal');
+// Selectors - Event Modal
+const fabButton = document.getElementById('openEventModal');
+const eventModal = document.getElementById('eventModal');
+const closeEventModal = document.getElementById('closeEventModal');
 const submitBtn = document.getElementById('submitEvent');
 const titleInput = document.getElementById('eventTitle');
 const timeInput = document.getElementById('eventTime');
@@ -12,38 +14,21 @@ const uploadBox = document.getElementById('uploadBox');
 const uploadText = document.getElementById('uploadText');
 const fileInput = document.getElementById('fileInput');
 
-// Open modal when plus is clicked
-fabButton.addEventListener('click', () => {
-    modal.classList.add('active');
-});
+// Selectors - Report Modal
+const reportModal = document.getElementById('reportModal');
+const openReportBtn = document.getElementById('openReportModal');
+const closeReportBtn = document.getElementById('closeReportModal');
+const submitReportBtn = document.getElementById('submitReport');
 
-// Close modal when X is clicked
-closeModal.addEventListener('click', () => {
-    modal.classList.remove('active');
-});
+// --- EVENT MODAL LOGIC ---
+fabButton.addEventListener('click', () => eventModal.classList.add('active'));
+closeEventModal.addEventListener('click', () => eventModal.classList.remove('active'));
 
-// Close modal if user clicks outside the yellow box
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        modal.classList.remove('active');
-    }
-});
-
-// Clicking upload box should open file chooser
-uploadBox.addEventListener('click', () => {
-    fileInput.click();
-});
-
-// Show selected file name
+uploadBox.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', () => {
-    if (fileInput.files.length > 0) {
-        uploadText.textContent = fileInput.files[0].name;
-    } else {
-        uploadText.textContent = 'Upload file here';
-    }
+    uploadText.textContent = fileInput.files.length > 0 ? fileInput.files[0].name : 'Upload file here';
 });
 
-// Handle event creation
 submitBtn.addEventListener('click', () => {
     const title = titleInput.value.trim();
     const time = timeInput.value.trim();
@@ -52,56 +37,68 @@ submitBtn.addEventListener('click', () => {
         return;
     }
 
-    // build card HTML
     const card = document.createElement('div');
     card.className = 'card';
+    card.innerHTML = `
+        <p class="card-title">${title} | ${time}</p>
+        <div class="flyer-box"></div>
+    `;
 
-    const p = document.createElement('p');
-    p.className = 'card-title';
-    p.textContent = `${title} | ${time}`;
-    card.appendChild(p);
-
-    const flyer = document.createElement('div');
-    flyer.className = 'flyer-box';
-    if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        if (file.type.startsWith('image/')) {
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.style.maxWidth = '100%';
-            img.style.maxHeight = '100%';
-            flyer.appendChild(img);
-        } else {
-            const span = document.createElement('span');
-            span.textContent = file.name;
-            flyer.appendChild(span);
-        }
+    const flyer = card.querySelector('.flyer-box');
+    if (fileInput.files.length > 0 && fileInput.files[0].type.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(fileInput.files[0]);
+        img.style.maxWidth = '100%';
+        flyer.appendChild(img);
     } else {
         flyer.innerHTML = '<em>[Flyer]</em>';
     }
-    card.appendChild(flyer);
 
-    // append to your events grid
-    const yourGrid = document.querySelector('#yourEvents .card-grid');
-    yourGrid.appendChild(card);
-
-    // reset form and close modal
-    titleInput.value = '';
-    timeInput.value = '';
-    fileInput.value = '';
+    document.querySelector('#yourEvents .card-grid').appendChild(card);
+    
+    // Reset
+    titleInput.value = ''; timeInput.value = ''; fileInput.value = '';
     uploadText.textContent = 'Upload file here';
-    modal.classList.remove('active');
+    eventModal.classList.remove('active');
 });
 
+// --- REPORT MODAL LOGIC ---
+openReportBtn.addEventListener('click', () => reportModal.classList.add('active'));
+closeReportBtn.addEventListener('click', () => reportModal.classList.remove('active'));
+
+submitReportBtn.addEventListener('click', () => {
+    const name = document.getElementById('reportName').value.trim();
+    const error = document.getElementById('reportError').value.trim();
+    const myEmail = "asubrama27@students.d125.org"; 
+
+    if (!name || !error) {
+        alert('Please enter your name and the error description.');
+        return;
+    }
+
+    const subject = encodeURIComponent(`SHS Bug Report: ${name}`);
+    const body = encodeURIComponent(`User: ${name}\n\nIssue:\n${error}`);
+    
+    window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
+
+    // Reset and close
+    document.getElementById('reportName').value = '';
+    document.getElementById('reportError').value = '';
+    reportModal.classList.remove('active');
+});
+
+// Universal close for clicking outside modals
+window.addEventListener('click', (e) => {
+    if (e.target === eventModal) eventModal.classList.remove('active');
+    if (e.target === reportModal) reportModal.classList.remove('active');
+});
+
+// --- GOOGLE SHEETS LOGIC ---
 async function fetchSheetData() {
     try {
         const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
-
-
         const response = await fetch(url);
         const json = await response.json();
-
-
         return json.values || [];
     } catch (error) {
         console.error("Error fetching sheet:", error);
@@ -112,29 +109,18 @@ async function fetchSheetData() {
 function displayData(targetDivId, data) {
     const container = document.getElementById(targetDivId);
     container.innerHTML = "";
-
-
     const rows = data.slice(1);
-
-
     rows.forEach(row => {
         const item = document.createElement("div");
         item.className = "row";
-
-
-        // row[#] is getting the column # at a selected row
-        // So like, row[0] for example means that at the selected row we are getting the 0th column (Column A)
-        //Adjust this based on the structure you decide, this is just an example
         item.innerHTML = `
             <p><strong>${row[0] || ""}</strong></p>
             <p>${row[1] || ""}</p>
             <p>${row[2] || ""}</p>
             <a href="${row[3] || ""}">More Info</a>
             <p>${row[4] || ""}</p>
-            <img src="https://drive.google.com/file/d/${row[5] || ""}/preview"></img>
+            <img src="https://drive.google.com/file/d/${row[5] || ""}/preview" style="width:100px;">
         `;
-
-
         container.appendChild(item);
     });
 }

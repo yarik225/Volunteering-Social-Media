@@ -238,6 +238,18 @@ body {
     margin-bottom: 15px;
 }
 
+#reportError {
+    font-family: inherit;
+    resize: none; /* Prevents user from breaking the layout */
+    outline: none;
+}
+
+/* Ensure the report icon looks clickable */
+#openReportModal {
+    font-size: 28px;
+    cursor: pointer;
+}
+
 .form-group label {
     width: 120px;
     font-weight: bold;
