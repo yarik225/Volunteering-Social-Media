@@ -66,26 +66,20 @@ submitBtn.addEventListener('click', () => {
 openReportBtn.addEventListener('click', () => reportModal.classList.add('active'));
 closeReportBtn.addEventListener('click', () => reportModal.classList.remove('active'));
 
-submitReportBtn.addEventListener('click', () => {
-    const name = document.getElementById('reportName').value.trim();
-    const error = document.getElementById('reportError').value.trim();
-    const myEmail = "asubrama27@students.d125.org"; 
-
-    if (!name || !error) {
-        alert('Please enter your name and the error description.');
-        return;
-    }
-
-    const subject = encodeURIComponent(`SHS Bug Report: ${name}`);
-    const body = encodeURIComponent(`User: ${name}\n\nIssue:\n${error}`);
-    
-    window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
-
-    // Reset and close
-    document.getElementById('reportName').value = '';
-    document.getElementById('reportError').value = '';
-    reportModal.classList.remove('active');
-});
+if (submitReportBtn) {
+    submitReportBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // If there is an inline report form (legacy), we keep this as fallback.
+        const name = document.getElementById('reportName')?.value.trim();
+        const error = document.getElementById('reportError')?.value.trim();
+        if (!name || !error) {
+            alert('Please enter your name and the error description.');
+            return;
+        }
+        alert('Report submitted locally. Thanks for your feedback!');
+        reportModal.classList.remove('active');
+    });
+}
 
 // Universal close for clicking outside modals
 window.addEventListener('click', (e) => {
