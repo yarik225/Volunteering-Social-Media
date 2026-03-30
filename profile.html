@@ -164,16 +164,15 @@
         /* --- MATCHING HOME PAGE BOTTOM BAR --- */
         .bottom-bar {
             background: white;
-            padding: 1rem;
+            padding: 1rem 2rem;
             box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: center; 
+            justify-content: space-around;
             align-items: center;
             position: fixed;
             bottom: 0;
             width: 100%;
             z-index: 100;
-            gap: 80px; 
         }
 
         .fab-container {
@@ -341,7 +340,7 @@
         <div style="width: 26px;"></div> 
 
         <div class="fab-container">
-            <button class="fab-button" onclick="location.href='index.html'">+</button>
+            <button class="fab-button" id="openEventModal">+</button>
         </div>
 
         <i class="fa-solid fa-circle-exclamation" id="openReportModal" title="Report Feedback"></i>
