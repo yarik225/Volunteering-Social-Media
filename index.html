@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHS Volunteering</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="events.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -35,28 +36,33 @@
     <main class="main-content">
         <section class="event-group" id="yourEvents">
             <h2>Your Events:</h2>
-            <div class="card-grid">
-                <!-- your events will appear here -->
+            <div class="collapsible-grid" id="yourEventsWrapper">
+                <div class="card-grid" id="yourEventsGrid">
+                    <div class="empty-state">No events yet — tap <strong>+</strong> to add one.</div>
+                </div>
             </div>
         </section>
 
         <section class="event-group">
             <h2>Opportunities For You:</h2>
-            <div class="card-grid">
-                <!-- opportunity cards could go here if you implement them later -->
-                 <div id="opportunities"></div>
+            <div class="collapsible-grid" id="oppsWrapper">
+                <div class="card-grid" id="opportunitiesGrid">
+                    <!-- populated from Google Sheets -->
+                </div>
             </div>
         </section>
     </main>
 
+    <!-- Bottom Bar -->
     <footer class="bottom-bar">
         <i class="fa-regular fa-comment-dots"></i>
         <div class="fab-container">
-            <button class="fab-button">+</button>
+            <button class="fab-button" id="fabButton">+</button>
         </div>
         <i class="fa-regular fa-bookmark"></i>
     </footer>
     <div class="modal-overlay" id="eventModal">
+        <input id="searchInput" hidden aria-hidden>
     <div class="modal-content">
         <h2>New Event</h2>
         
@@ -83,6 +89,7 @@
         <button class="close-btn" id="closeModal">×</button>
     </div>
 </div>
-    <script src="/script.js"></script>
+    <!--<script src="/script.js"></script>-->
+    <script src="/events.js"></script>
 </body>
 </html>
