@@ -1,0 +1,458 @@
+/* ── Reset & Base ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* ── Header ── */
+.header {
+    background: #2b5229;
+    color: white;
+    padding: 1rem 2rem;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Push brand fully to the left */
+.brand {
+    margin-right: auto;
+}
+
+.brand h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    opacity: 1;
+    font-weight: 600;
+}
+
+.logo-container {
+    flex-shrink: 0;
+}
+
+.logo {
+    height: 100px;
+    width: auto;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    min-width: 200px;
+}
+
+.search-bar i {
+    margin-right: 0.5rem;
+    opacity: 0.7;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    width: 100%;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.gold-divider {
+    height: 4px;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+    margin-top: 1rem;
+}
+
+/* ── Sort Bar ── */
+.sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 2rem;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    flex-wrap: wrap;
+}
+
+.sort-bar span {
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sort-btn {
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    border: 1.5px solid #ccc;
+    background: white;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #444;
+    font-weight: 500;
+}
+
+.sort-btn:hover {
+    border-color: #2b5229;
+    color: #2b5229;
+}
+
+.sort-btn.active {
+    background: #2b5229;
+    color: white;
+    border-color: #2b5229;
+}
+
+/* ── Main Content ── */
+.main-content {
+    flex: 1;
+    padding: 1.5rem 2rem 6rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.section-header h2 {
+    font-size: 1.15rem;
+    color: #222;
+    font-weight: 700;
+}
+
+.toggle-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #444;
+    font-size: 0.95rem;
+    transition: transform 0.3s;
+}
+
+.toggle-arrow.collapsed {
+    transform: rotate(-90deg);
+}
+
+/* ── Card Grid ── */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+}
+
+.card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 0.85rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-meta {
+    font-size: 0.77rem;
+    color: #777;
+}
+
+.flyer-box {
+    background-color: #fffdf0;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    border: 1.5px solid #e2d18a;
+    border-radius: 8px;
+    overflow: hidden;
+    color: #b0a060;
+}
+
+.flyer-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: #e8f5e9;
+    color: #2b5229;
+    width: fit-content;
+}
+
+.event-group {
+    margin-bottom: 0.5rem;
+}
+
+.collapsible-grid {
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+/* ── Empty State ── */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2.5rem;
+    color: #aaa;
+    font-size: 0.95rem;
+}
+
+/* ── Bottom Bar ── */
+.bottom-bar {
+    background: white;
+    padding: 0.9rem 2rem;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.bottom-bar i {
+    font-size: 24px;
+    color: #2b5229;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.bottom-bar i:hover {
+    color: #10b981;
+}
+
+.fab-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fab-button {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2b5229, #10b981);
+    border: none;
+    color: white;
+    font-size: 32px;
+    font-weight: 300;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: -28px;
+}
+
+.fab-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.fab-button:active {
+    transform: scale(0.95);
+}
+
+/* ── Modal ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #fce88d;
+    width: 500px;
+    max-width: 92vw;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    margin-bottom: 1.2rem;
+    color: #2b5229;
+    font-size: 1.4rem;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+    gap: 10px;
+}
+
+.form-group label {
+    width: 120px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="time"] {
+    flex: 1;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    outline: none;
+    background: white;
+}
+
+.flyer-group {
+    align-items: flex-start;
+}
+
+.upload-box {
+    background-color: white;
+    flex: 1;
+    height: 130px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1.5px dashed #ccc;
+    transition: border-color 0.2s;
+    gap: 6px;
+}
+
+.upload-box:hover {
+    border-color: #2b5229;
+}
+
+.upload-box i {
+    font-size: 2rem;
+    color: #888;
+}
+
+.upload-box span {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #555;
+    line-height: 1;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 16px;
+    background-color: #2b5229;
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #1e3d1c;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

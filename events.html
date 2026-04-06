@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHS Volunteering - Events</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="events.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="brand">
+                <h1>SHS Volunteering</h1>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="events.html" class="active">Events</a>
+                    <a href="profile.html">Profile</a>
+                </div>
+            </div>
+            <div class="logo-container">
+                <img src="patriot-logo.png" alt="SHS Logo" class="logo">
+            </div>
+            <div class="search-bar">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="search..." id="searchInput">
+            </div>
+        </div>
+        <div class="gold-divider"></div>
+    </header>
+
+    <!-- Sort Bar -->
+    <div class="sort-bar">
+        <span>Sort by:</span>
+        <button class="sort-btn active" data-sort="datetime">Date &amp; Time</button>
+        <button class="sort-btn" data-sort="date">Date</button>
+        <button class="sort-btn" data-sort="hour">Hour</button>
+        <button class="sort-btn" data-sort="distance">Distance</button>
+    </div>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <!-- Your Events -->
+        <div class="event-group" id="yourEventsGroup">
+            <div class="section-header">
+                <h2>Your Events:</h2>
+                <button class="toggle-arrow" id="toggleYours" title="Collapse">▼</button>
+            </div>
+            <div class="collapsible-grid" id="yourEventsWrapper">
+                <div class="card-grid" id="yourEventsGrid">
+                    <div class="empty-state">No events yet — tap <strong>+</strong> to add one.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Opportunities For You -->
+        <div class="event-group" id="opportunitiesGroup">
+            <div class="section-header">
+                <h2>Opportunities For You:</h2>
+                <button class="toggle-arrow" id="toggleOpps" title="Collapse">▼</button>
+            </div>
+            <div class="collapsible-grid" id="oppsWrapper">
+                <div class="card-grid" id="opportunitiesGrid">
+                    <!-- populated from Google Sheets -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Bar -->
+    <footer class="bottom-bar">
+        <i class="fa-regular fa-comment-dots"></i>
+        <div class="fab-container">
+            <button class="fab-button" id="fabButton">+</button>
+        </div>
+        <i class="fa-regular fa-bookmark"></i>
+    </footer>
+
+    <!-- New Event Modal -->
+    <div class="modal-overlay" id="eventModal">
+        <div class="modal-content">
+            <h2>New Event</h2>
+
+            <div class="form-group">
+                <label>Title:</label>
+                <input type="text" id="eventTitle" placeholder="Event name">
+            </div>
+
+            <div class="form-group">
+                <label>Date:</label>
+                <input type="date" id="eventDate">
+            </div>
+
+            <div class="form-group">
+                <label>Time:</label>
+                <input type="time" id="eventTime">
+            </div>
+
+            <div class="form-group">
+                <label>End Time:</label>
+                <input type="time" id="eventEndTime">
+            </div>
+
+            <div class="form-group flyer-group">
+                <label>Flyer:</label>
+                <div class="upload-box" id="uploadBox">
+                    <i class="fa-solid fa-upload"></i>
+                    <span id="uploadText">Upload file here</span>
+                    <input type="file" hidden id="fileInput" accept="image/*">
+                </div>
+            </div>
+
+            <button class="submit-btn" id="submitEvent">Create Event</button>
+            <button class="close-btn" id="closeModal">×</button>
+        </div>
+    </div>
+
+    <script src="events.js"></script>
+</body>
+</html>
