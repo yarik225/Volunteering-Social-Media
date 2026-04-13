@@ -40,6 +40,16 @@
         <button class="sort-btn" data-sort="distance">Distance</button>
     </div>
 
+    <div class="event-group">
+    <div class="section-header">
+        <h2>Your Events:</h2>
+        <button class="toggle-arrow" id="toggleYours">▼</button>
+    </div>
+    <div class="collapsible-grid" id="yourEventsWrapper">
+        <div class="card-grid" id="yourEventsGrid"></div>
+    </div>
+</div>
+
     <!-- Main -->
     <main class="main-content">
 
@@ -109,9 +119,23 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { 
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    onSnapshot,
+    query,
+    orderBy
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyD0UdRmr0CM8ZlxuAeArIw2Pl5LiJAmZIg",
     authDomain: "shs-volunteering-app.firebaseapp.com",
@@ -119,24 +143,13 @@
     storageBucket: "shs-volunteering-app.firebasestorage.app",
     messagingSenderId: "934222129506",
     appId: "1:934222129506:web:d23c9cc805f44b2183643b",
-    measurementId: "G-CCWGVSE5WJ"
-    };
+  };
 
+  // INIT FIRST
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
   const provider = new GoogleAuthProvider();
-
-  window.firebaseApp = app;
-  window.auth = auth;
-  window.db = db;
-  window.provider = provider;
-  window.signInWithPopup = signInWithPopup;
-  window.collection = collection;
-  window.addDoc = addDoc;
-  window.onSnapshot = onSnapshot;
-  window.query = query;
-  window.orderBy = orderBy;
 </script>
 
     <script src="events.js"></script>

@@ -1,16 +1,52 @@
-let currentUser = null;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth,
+  setPersistence,
+  browserLocalPersistence,
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// Google login
-document.getElementById("loginBtn").addEventListener("click", async () => {
-    try {
-        const result = await window.signInWithPopup(window.auth, window.provider);
-        currentUser = result.user;
-        alert("Logged in as " + currentUser.displayName);
-    } catch (err) {
-        console.error(err);
-        alert("Login failed");
-    }
-});
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD0UdRmr0CM8ZlxuAeArIw2Pl5LiJAmZIg",
+  authDomain: "shs-volunteering-app.firebaseapp.com",
+  projectId: "shs-volunteering-app",
+  storageBucket: "shs-volunteering-app.firebasestorage.app",
+  messagingSenderId: "934222129506",
+  appId: "1:934222129506:web:d23c9cc805f44b2183643b",
+  measurementId: "G-CCWGVSE5WJ"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+await setPersistence(auth, browserLocalPersistence);
+const provider = new GoogleAuthProvider();
+
+const loginBtn = document.getElementById("loginBtn");
+
+if (loginBtn) {
+    loginBtn.addEventListener("click", async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            window.currentUser = result.user;
+            alert("Logged in as " + window.currentUser.displayName);
+        } catch (err) {
+            console.error(err);
+        }
+    });
+}
 
 const API_KEY = "AIzaSyCGh11mVrfvEYEY--H8D4THUxPC2axbjeM";
 const SPREADSHEET_ID = "11mestl91E6M6gFYVKHqBTtW6R-jzMWajS0qpzalra4w";
@@ -250,7 +286,7 @@ fileInput.addEventListener("change", () => {
 // ── Modal: Create Event ──
 
 submitBtn.addEventListener("click", async () => {
-    if (!currentUser) {
+    if (!window.currentUser) {
         alert("Please sign in first.");
         return;
     }
@@ -278,7 +314,7 @@ submitBtn.addEventListener("click", async () => {
             time,
             endTime,
             imageBase64,
-            user: currentUser.displayName,
+            user: window.currentUser.displayName,
             createdAt: new Date()
         });
 
@@ -299,16 +335,17 @@ submitBtn.addEventListener("click", async () => {
 });
 
 function listenToFirebaseEvents() {
-    const q = window.query(
-        window.collection(window.db, "events"),
-        window.orderBy("createdAt", "desc")
+    const q = query(
+        collection(db, "events"),
+        orderBy("createdAt", "desc")
     );
 
-    window.onSnapshot(q, (snapshot) => {
-        yourEvents.length = 0; // clear local
+    onSnapshot(q, (snapshot) => {
+        yourEvents.length = 0;
 
         snapshot.forEach(doc => {
             const data = doc.data();
+
             yourEvents.push({
                 title: data.title,
                 date: data.date,
@@ -363,6 +400,7 @@ async function init() {
     renderOpportunities(sheetData);
     renderYourEvents();
     listenToFirebaseEvents();
+    
 
     // Wait for DOM to settle before measuring heights for collapsibles
     setTimeout(() => {
