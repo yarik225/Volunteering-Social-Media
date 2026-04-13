@@ -5,6 +5,11 @@ const SHEET_NAME = "Sheet1!A1:F64";
 const fabButton = document.querySelector('.fab-button');
 const modal = document.getElementById('eventModal');
 const closeModal = document.getElementById('closeModal');
+const openEventModal = document.getElementById('openEventModal');
+const closeEventModal = document.getElementById('closeEventModal') || closeModal;
+const reportModal = document.getElementById('reportModal');
+const openReportModal = document.getElementById('openReportModal');
+const closeReportModal = document.getElementById('closeReportModal');
 const submitBtn = document.getElementById('submitEvent');
 const titleInput = document.getElementById('eventTitle');
 const timeInput = document.getElementById('eventTime');
@@ -12,20 +17,36 @@ const uploadBox = document.getElementById('uploadBox');
 const uploadText = document.getElementById('uploadText');
 const fileInput = document.getElementById('fileInput');
 
-// Open modal when plus is clicked
-fabButton.addEventListener('click', () => {
-    modal.classList.add('active');
+const showModal = (element) => element?.classList.add('active');
+const hideModal = (element) => element?.classList.remove('active');
+
+// Open event modal when plus is clicked
+(openEventModal || fabButton)?.addEventListener('click', () => {
+    showModal(modal);
 });
 
-// Close modal when X is clicked
-closeModal.addEventListener('click', () => {
-    modal.classList.remove('active');
+// Close event modal when X is clicked
+closeEventModal?.addEventListener('click', () => {
+    hideModal(modal);
+});
+
+// Open report modal when report icon is clicked
+openReportModal?.addEventListener('click', () => {
+    showModal(reportModal);
+});
+
+// Close report modal when X is clicked
+closeReportModal?.addEventListener('click', () => {
+    hideModal(reportModal);
 });
 
 // Close modal if user clicks outside the yellow box
 window.addEventListener('click', (e) => {
     if (e.target === modal) {
-        modal.classList.remove('active');
+        hideModal(modal);
+    }
+    if (e.target === reportModal) {
+        hideModal(reportModal);
     }
 });
 
