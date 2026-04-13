@@ -117,41 +117,6 @@
         </div>
     </div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { 
-    getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-  import {
-    getFirestore,
-    collection,
-    addDoc,
-    onSnapshot,
-    query,
-    orderBy
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyD0UdRmr0CM8ZlxuAeArIw2Pl5LiJAmZIg",
-    authDomain: "shs-volunteering-app.firebaseapp.com",
-    projectId: "shs-volunteering-app",
-    storageBucket: "shs-volunteering-app.firebasestorage.app",
-    messagingSenderId: "934222129506",
-    appId: "1:934222129506:web:d23c9cc805f44b2183643b",
-  };
-
-  // INIT FIRST
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const provider = new GoogleAuthProvider();
-</script>
-
     <script type="module" src="events.js"></script>
 </body>
 </html>
