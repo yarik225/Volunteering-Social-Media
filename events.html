@@ -101,10 +101,43 @@
                 </div>
             </div>
 
+            <button id="loginBtn" class="submit-btn">Sign in with Google</button>
             <button class="submit-btn" id="submitEvent">Create Event</button>
             <button class="close-btn" id="closeModal">×</button>
         </div>
     </div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0UdRmr0CM8ZlxuAeArIw2Pl5LiJAmZIg",
+    authDomain: "shs-volunteering-app.firebaseapp.com",
+    projectId: "shs-volunteering-app",
+    storageBucket: "shs-volunteering-app.firebasestorage.app",
+    messagingSenderId: "934222129506",
+    appId: "1:934222129506:web:d23c9cc805f44b2183643b",
+    measurementId: "G-CCWGVSE5WJ"
+    };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  window.firebaseApp = app;
+  window.auth = auth;
+  window.db = db;
+  window.provider = provider;
+  window.signInWithPopup = signInWithPopup;
+  window.collection = collection;
+  window.addDoc = addDoc;
+  window.onSnapshot = onSnapshot;
+  window.query = query;
+  window.orderBy = orderBy;
+</script>
 
     <script src="events.js"></script>
 </body>

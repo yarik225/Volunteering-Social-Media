@@ -1,4 +1,17 @@
-// ── Google Sheets Config ──
+let currentUser = null;
+
+// Google login
+document.getElementById("loginBtn").addEventListener("click", async () => {
+    try {
+        const result = await window.signInWithPopup(window.auth, window.provider);
+        currentUser = result.user;
+        alert("Logged in as " + currentUser.displayName);
+    } catch (err) {
+        console.error(err);
+        alert("Login failed");
+    }
+});
+
 const API_KEY = "AIzaSyCGh11mVrfvEYEY--H8D4THUxPC2axbjeM";
 const SPREADSHEET_ID = "11mestl91E6M6gFYVKHqBTtW6R-jzMWajS0qpzalra4w";
 const SHEET_NAME = "Sheet1!A1:F64";
@@ -236,7 +249,12 @@ fileInput.addEventListener("change", () => {
 
 // ── Modal: Create Event ──
 
-submitBtn.addEventListener("click", () => {
+submitBtn.addEventListener("click", async () => {
+    if (!currentUser) {
+        alert("Please sign in first.");
+        return;
+    }
+
     const title   = document.getElementById("eventTitle").value.trim();
     const date    = document.getElementById("eventDate").value;
     const time    = document.getElementById("eventTime").value;
@@ -247,27 +265,62 @@ submitBtn.addEventListener("click", () => {
         return;
     }
 
-    let imageURL = null;
-    if (fileInput.files.length > 0 && fileInput.files[0].type.startsWith("image/")) {
-        imageURL = URL.createObjectURL(fileInput.files[0]);
+    let imageBase64 = null;
+
+    if (fileInput.files.length > 0) {
+        imageBase64 = await resizeImageToBase64(fileInput.files[0]);
     }
 
-    yourEvents.push({ title, date, time, endTime, imageURL, distance: 0 });
-    renderYourEvents();
+    try {
+        await window.addDoc(window.collection(window.db, "events"), {
+            title,
+            date,
+            time,
+            endTime,
+            imageBase64,
+            user: currentUser.displayName,
+            createdAt: new Date()
+        });
 
-    // Reset form fields
-    document.getElementById("eventTitle").value   = "";
-    document.getElementById("eventDate").value    = "";
-    document.getElementById("eventTime").value    = "";
-    document.getElementById("eventEndTime").value = "";
-    fileInput.value       = "";
-    uploadText.textContent = "Upload file here";
-    modal.classList.remove("active");
+        modal.classList.remove("active");
 
-    // Expand the collapsible wrapper to fit new card
-    const wrapper = document.getElementById("yourEventsWrapper");
-    wrapper.style.maxHeight = wrapper.scrollHeight + 2000 + "px";
+        // reset form
+        document.getElementById("eventTitle").value = "";
+        document.getElementById("eventDate").value = "";
+        document.getElementById("eventTime").value = "";
+        document.getElementById("eventEndTime").value = "";
+        fileInput.value = "";
+        uploadText.textContent = "Upload file here";
+
+    } catch (err) {
+        console.error(err);
+        alert("Error saving event");
+    }
 });
+
+function listenToFirebaseEvents() {
+    const q = window.query(
+        window.collection(window.db, "events"),
+        window.orderBy("createdAt", "desc")
+    );
+
+    window.onSnapshot(q, (snapshot) => {
+        yourEvents.length = 0; // clear local
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            yourEvents.push({
+                title: data.title,
+                date: data.date,
+                time: data.time,
+                endTime: data.endTime,
+                imageURL: data.imageBase64
+            });
+        });
+
+        renderYourEvents();
+    });
+}
 
 // ── Search ──
 
@@ -278,6 +331,30 @@ document.getElementById("searchInput").addEventListener("input", function () {
     });
 });
 
+function resizeImageToBase64(file) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = e => {
+            img.src = e.target.result;
+        };
+
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = 200;
+            canvas.height = 200;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, 200, 200);
+
+            resolve(canvas.toDataURL("image/jpeg", 0.7)); // compressed
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
 // ── Init ──
 
 async function init() {
@@ -285,6 +362,7 @@ async function init() {
     window._sheetData = sheetData;
     renderOpportunities(sheetData);
     renderYourEvents();
+    listenToFirebaseEvents();
 
     // Wait for DOM to settle before measuring heights for collapsibles
     setTimeout(() => {
