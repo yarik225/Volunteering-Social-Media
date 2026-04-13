@@ -197,10 +197,10 @@ body {
     gap: 0.6rem;
 }
 
-.card:hover {
+/*.card:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
-}
+}*/
 
 .card-title {
     font-weight: 700;
@@ -225,7 +225,7 @@ body {
     font-size: 1.8rem;
     border: 1.5px solid #e2d18a;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: hidden; 
     color: #b0a060;
 }
 
@@ -251,7 +251,7 @@ body {
 }
 
 .collapsible-grid {
-    overflow: hidden;
+    overflow: visible; /* so cards can scale without clipping */
     transition: max-height 0.35s ease;
 }
 
