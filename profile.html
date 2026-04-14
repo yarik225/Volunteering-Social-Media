@@ -337,13 +337,59 @@
         </section>
     </main>
     <footer class="bottom-bar">
-        <i class="fa-regular fa-comment-dots"></i>
+        <div style="width: 26px;"></div>
+
         <div class="fab-container">
-            <button class="fab-button">+</button>
+            <button class="fab-button" id="openEventModal">+</button>
         </div>
-        <i class="fa-regular fa-bookmark"></i>
+
+        <i class="fa-solid fa-circle-exclamation" id="openReportModal" title="Report Feedback"></i>
     </footer>
 
+    <div class="modal-overlay" id="eventModal">
+        <div class="modal-content">
+            <h2>New Event</h2>
+
+            <div class="form-group">
+                <label>Title:</label>
+                <input type="text" id="eventTitle" placeholder="|">
+            </div>
+
+            <div class="form-group">
+                <label class="underline">Time:</label>
+                <input type="text" id="eventTime" placeholder="00:00-00:00">
+            </div>
+
+            <div class="form-group flyer-group">
+                <label>Flyer Upload:</label>
+                <div class="upload-box" id="uploadBox">
+                    <i class="fa-solid fa-upload"></i>
+                    <span id="uploadText">Upload file here</span>
+                    <input type="file" hidden id="fileInput">
+                </div>
+            </div>
+            <button class="submit-btn" id="submitEvent">Create Event</button>
+            <button class="close-btn" id="closeEventModal">×</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="reportModal">
+        <div class="modal-content" style="background-color: #fffaf0; border: 2px solid #dc3545; max-width: 760px; width: 90%;">
+            <button class="close-btn" id="closeReportModal">×</button>
+            <h2>Report Feedback</h2>
+            <p>Fill out the form below to submit feedback directly from this app.</p>
+            <iframe
+                src="https://forms.gle/vwkqReddcRhLqdh96"
+                width="100%"
+                height="600"
+                frameborder="0"
+                marginheight="0"
+                marginwidth="0"
+                style="border: 0;"
+                title="Google feedback form"
+            >Loading…</iframe>
+        </div>
+    </div>
 
     <script>
         // Photo upload functionality
@@ -352,11 +398,16 @@
         const profileImage = document.getElementById('profileImage');
         const pfpText = document.getElementById('pfpText');
 
+        const openEventModal = document.getElementById('openEventModal');
+        const eventModal = document.getElementById('eventModal');
+        const closeEventModal = document.getElementById('closeEventModal');
+        const openReportModal = document.getElementById('openReportModal');
+        const reportModal = document.getElementById('reportModal');
+        const closeReportModal = document.getElementById('closeReportModal');
 
         pfpCircle.addEventListener('click', () => {
             photoUpload.click();
         });
-
 
         photoUpload.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -369,6 +420,27 @@
                 };
                 reader.readAsDataURL(file);
             }
+        });
+
+        openEventModal?.addEventListener('click', () => {
+            eventModal?.classList.add('active');
+        });
+
+        closeEventModal?.addEventListener('click', () => {
+            eventModal?.classList.remove('active');
+        });
+
+        openReportModal?.addEventListener('click', () => {
+            reportModal?.classList.add('active');
+        });
+
+        closeReportModal?.addEventListener('click', () => {
+            reportModal?.classList.remove('active');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === eventModal) eventModal?.classList.remove('active');
+            if (e.target === reportModal) reportModal?.classList.remove('active');
         });
     </script>
 
