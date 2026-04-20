@@ -59,16 +59,13 @@ const yourEvents = [];
 let currentSort = "datetime";
 
 // ── DOM References ──
-const modal          = document.getElementById("eventModal");
-const fabButton      = document.getElementById("fabButton");
-const closeModal     = document.getElementById("closeModal");
-const submitBtn      = document.getElementById("submitEvent");
-const uploadBox      = document.getElementById("uploadBox");
-const fileInput      = document.getElementById("fileInput");
-const uploadText     = document.getElementById("uploadText");
-const reportModal    = document.getElementById("reportModal");
-const openReportModal = document.getElementById("openReportModal");
-const closeReportModal = document.getElementById("closeReportModal");
+const modal      = document.getElementById("eventModal");
+const fabButton  = document.getElementById("fabButton");
+const closeModal = document.getElementById("closeModal");
+const submitBtn  = document.getElementById("submitEvent");
+const uploadBox  = document.getElementById("uploadBox");
+const fileInput  = document.getElementById("fileInput");
+const uploadText = document.getElementById("uploadText");
 
 // ── Helpers ──
 
@@ -273,11 +270,8 @@ function setupToggle(btnId, wrapperId) {
 
 fabButton.addEventListener("click",  () => modal.classList.add("active"));
 closeModal.addEventListener("click", () => modal.classList.remove("active"));
-openReportModal?.addEventListener("click", () => reportModal?.classList.add("active"));
-closeReportModal?.addEventListener("click", () => reportModal?.classList.remove("active"));
 window.addEventListener("click", e => {
     if (e.target === modal) modal.classList.remove("active");
-    if (e.target === reportModal) reportModal.classList.remove("active");
 });
 
 // ── Modal: File Upload Preview ──

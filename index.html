@@ -43,13 +43,11 @@
     </main>
 
     <footer class="bottom-bar">
-        <div style="width: 26px;"></div>
-
+        <i class="fa-regular fa-comment-dots"></i>
         <div class="fab-container">
-            <button class="fab-button" id="openEventModal">+</button>
+            <button class="fab-button">+</button>
         </div>
-
-        <i class="fa-solid fa-circle-exclamation" id="openReportModal" title="Report Feedback"></i>
+        <i class="fa-regular fa-bookmark"></i>
     </footer>
     <div class="modal-overlay" id="eventModal">
     <div class="modal-content">
@@ -75,28 +73,9 @@
         </div>
         
         <button class="submit-btn" id="submitEvent">Create Event</button>
-        <button class="close-btn" id="closeEventModal">×</button>
+        <button class="close-btn" id="closeModal">×</button>
     </div>
 </div>
-
-    <div class="modal-overlay" id="reportModal">
-        <div class="modal-content" style="background-color: #fffaf0; border: 2px solid #dc3545; max-width: 760px; width: 90%;">
-            <button class="close-btn" id="closeReportModal">×</button>
-            <h2>Report Feedback</h2>
-            <p>Fill out the form below to submit feedback directly from this app.</p>
-            <iframe
-                src="https://forms.gle/vwkqReddcRhLqdh96"
-                width="100%"
-                height="600"
-                frameborder="0"
-                marginheight="0"
-                marginwidth="0"
-                style="border: 0;"
-                title="Google feedback form"
-            >Loading…</iframe>
-        </div>
-    </div>
-
     <script src="/script.js"></script>
 </body>
 </html>
