@@ -40,6 +40,16 @@
         <button class="sort-btn" data-sort="distance">Distance</button>
     </div>
 
+    <div class="event-group">
+    <div class="section-header">
+        <h2>Your Events:</h2>
+        <button class="toggle-arrow" id="toggleYours">▼</button>
+    </div>
+    <div class="collapsible-grid" id="yourEventsWrapper">
+        <div class="card-grid" id="yourEventsGrid"></div>
+    </div>
+</div>
+
     <!-- Main -->
     <main class="main-content">
 
@@ -101,11 +111,12 @@
                 </div>
             </div>
 
+            <button id="loginBtn" class="submit-btn">Sign in with Google</button>
             <button class="submit-btn" id="submitEvent">Create Event</button>
             <button class="close-btn" id="closeModal">×</button>
         </div>
     </div>
 
-    <script src="events.js"></script>
+    <script type="module" src="events.js"></script>
 </body>
 </html>

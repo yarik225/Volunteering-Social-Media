@@ -371,6 +371,48 @@
             }
         });
     </script>
+
+    <script type="module">
+       
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD0UdRmr0CM8ZlxuAeArIw2Pl5LiJAmZIg",
+            authDomain: "shs-volunteering-app.firebaseapp.com",
+            projectId: "shs-volunteering-app",
+            storageBucket: "shs-volunteering-app.firebasestorage.app",
+            messagingSenderId: "934222129506",
+            appId: "1:934222129506:web:d23c9cc805f44b2183643b",
+            measurementId: "G-CCWGVSE5WJ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const nameEl = document.querySelector(".user-details h2");
+        const classEl = document.querySelector(".user-details p");
+
+        // 👇 THIS keeps user logged in automatically
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+            nameEl.textContent = user.displayName || "No Name";
+
+            // show email instead of "Class of 2027" (optional)
+            classEl.textContent = user.email;
+
+            if (user.photoURL) {
+                profileImage.src = user.photoURL;
+                profileImage.style.display = "block";
+                pfpText.style.display = "none";
+            }
+            } else {
+            // not logged in
+            nameEl.textContent = "Not logged in";
+            classEl.textContent = "";
+            }
+        });
+    </script>
 </body>
 </html>
 
