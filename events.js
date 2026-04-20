@@ -1,4 +1,53 @@
-// ── Google Sheets Config ──
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth,
+  setPersistence,
+  browserLocalPersistence,
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD0UdRmr0CM8ZlxuAeArIw2Pl5LiJAmZIg",
+  authDomain: "shs-volunteering-app.firebaseapp.com",
+  projectId: "shs-volunteering-app",
+  storageBucket: "shs-volunteering-app.firebasestorage.app",
+  messagingSenderId: "934222129506",
+  appId: "1:934222129506:web:d23c9cc805f44b2183643b",
+  measurementId: "G-CCWGVSE5WJ"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+await setPersistence(auth, browserLocalPersistence);
+const provider = new GoogleAuthProvider();
+
+const loginBtn = document.getElementById("loginBtn");
+
+if (loginBtn) {
+    loginBtn.addEventListener("click", async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            window.currentUser = result.user;
+            alert("Logged in as " + window.currentUser.displayName);
+        } catch (err) {
+            console.error(err);
+        }
+    });
+}
+
 const API_KEY = "AIzaSyCGh11mVrfvEYEY--H8D4THUxPC2axbjeM";
 const SPREADSHEET_ID = "11mestl91E6M6gFYVKHqBTtW6R-jzMWajS0qpzalra4w";
 const SHEET_NAME = "Sheet1!A1:F64";
@@ -10,16 +59,13 @@ const yourEvents = [];
 let currentSort = "datetime";
 
 // ── DOM References ──
-const modal          = document.getElementById("eventModal");
-const fabButton      = document.getElementById("fabButton");
-const closeModal     = document.getElementById("closeModal");
-const submitBtn      = document.getElementById("submitEvent");
-const uploadBox      = document.getElementById("uploadBox");
-const fileInput      = document.getElementById("fileInput");
-const uploadText     = document.getElementById("uploadText");
-const reportModal    = document.getElementById("reportModal");
-const openReportModal = document.getElementById("openReportModal");
-const closeReportModal = document.getElementById("closeReportModal");
+const modal      = document.getElementById("eventModal");
+const fabButton  = document.getElementById("fabButton");
+const closeModal = document.getElementById("closeModal");
+const submitBtn  = document.getElementById("submitEvent");
+const uploadBox  = document.getElementById("uploadBox");
+const fileInput  = document.getElementById("fileInput");
+const uploadText = document.getElementById("uploadText");
 
 // ── Helpers ──
 
@@ -224,11 +270,8 @@ function setupToggle(btnId, wrapperId) {
 
 fabButton.addEventListener("click",  () => modal.classList.add("active"));
 closeModal.addEventListener("click", () => modal.classList.remove("active"));
-openReportModal?.addEventListener("click", () => reportModal?.classList.add("active"));
-closeReportModal?.addEventListener("click", () => reportModal?.classList.remove("active"));
 window.addEventListener("click", e => {
     if (e.target === modal) modal.classList.remove("active");
-    if (e.target === reportModal) reportModal.classList.remove("active");
 });
 
 // ── Modal: File Upload Preview ──
@@ -242,7 +285,12 @@ fileInput.addEventListener("change", () => {
 
 // ── Modal: Create Event ──
 
-submitBtn.addEventListener("click", () => {
+submitBtn.addEventListener("click", async () => {
+    if (!window.currentUser) {
+        alert("Please sign in first.");
+        return;
+    }
+
     const title   = document.getElementById("eventTitle").value.trim();
     const date    = document.getElementById("eventDate").value;
     const time    = document.getElementById("eventTime").value;
@@ -253,27 +301,63 @@ submitBtn.addEventListener("click", () => {
         return;
     }
 
-    let imageURL = null;
-    if (fileInput.files.length > 0 && fileInput.files[0].type.startsWith("image/")) {
-        imageURL = URL.createObjectURL(fileInput.files[0]);
+    let imageBase64 = null;
+
+    if (fileInput.files.length > 0) {
+        imageBase64 = await resizeImageToBase64(fileInput.files[0]);
     }
 
-    yourEvents.push({ title, date, time, endTime, imageURL, distance: 0 });
-    renderYourEvents();
+    try {
+        await window.addDoc(window.collection(window.db, "events"), {
+            title,
+            date,
+            time,
+            endTime,
+            imageBase64,
+            user: window.currentUser.displayName,
+            createdAt: new Date()
+        });
 
-    // Reset form fields
-    document.getElementById("eventTitle").value   = "";
-    document.getElementById("eventDate").value    = "";
-    document.getElementById("eventTime").value    = "";
-    document.getElementById("eventEndTime").value = "";
-    fileInput.value       = "";
-    uploadText.textContent = "Upload file here";
-    modal.classList.remove("active");
+        modal.classList.remove("active");
 
-    // Expand the collapsible wrapper to fit new card
-    const wrapper = document.getElementById("yourEventsWrapper");
-    wrapper.style.maxHeight = wrapper.scrollHeight + 2000 + "px";
+        // reset form
+        document.getElementById("eventTitle").value = "";
+        document.getElementById("eventDate").value = "";
+        document.getElementById("eventTime").value = "";
+        document.getElementById("eventEndTime").value = "";
+        fileInput.value = "";
+        uploadText.textContent = "Upload file here";
+
+    } catch (err) {
+        console.error(err);
+        alert("Error saving event");
+    }
 });
+
+function listenToFirebaseEvents() {
+    const q = query(
+        collection(db, "events"),
+        orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(q, (snapshot) => {
+        yourEvents.length = 0;
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+
+            yourEvents.push({
+                title: data.title,
+                date: data.date,
+                time: data.time,
+                endTime: data.endTime,
+                imageURL: data.imageBase64
+            });
+        });
+
+        renderYourEvents();
+    });
+}
 
 // ── Search ──
 
@@ -284,6 +368,30 @@ document.getElementById("searchInput").addEventListener("input", function () {
     });
 });
 
+function resizeImageToBase64(file) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = e => {
+            img.src = e.target.result;
+        };
+
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = 200;
+            canvas.height = 200;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, 200, 200);
+
+            resolve(canvas.toDataURL("image/jpeg", 0.7)); // compressed
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
 // ── Init ──
 
 async function init() {
@@ -291,6 +399,8 @@ async function init() {
     window._sheetData = sheetData;
     renderOpportunities(sheetData);
     renderYourEvents();
+    listenToFirebaseEvents();
+    
 
     // Wait for DOM to settle before measuring heights for collapsibles
     setTimeout(() => {
