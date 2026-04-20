@@ -41,7 +41,7 @@ if (loginBtn) {
         try {
             const result = await signInWithPopup(auth, provider);
             window.currentUser = result.user;
-            alert("Logged in as " + auth.currentUser.displayName);
+            alert("Logged in as " + window.currentUser.displayName);
         } catch (err) {
             console.error(err);
         }
@@ -297,9 +297,9 @@ submitBtn.addEventListener("click", async () => {
         return;
     }
 
-    const title = document.getElementById("eventTitle").value.trim();
-    const date = document.getElementById("eventDate").value;
-    const time = document.getElementById("eventTime").value;
+    const title   = document.getElementById("eventTitle").value.trim();
+    const date    = document.getElementById("eventDate").value;
+    const time    = document.getElementById("eventTime").value;
     const endTime = document.getElementById("eventEndTime").value;
 
     if (!title) {
@@ -314,18 +314,19 @@ submitBtn.addEventListener("click", async () => {
     }
 
     try {
-        await addDoc(collection(db, "events"), {
+        await window.addDoc(window.collection(window.db, "events"), {
             title,
             date,
             time,
             endTime,
             imageBase64,
-            user: auth.currentUser.displayName,
+            user: window.currentUser.displayName,
             createdAt: new Date()
         });
 
         modal.classList.remove("active");
 
+        // reset form
         document.getElementById("eventTitle").value = "";
         document.getElementById("eventDate").value = "";
         document.getElementById("eventTime").value = "";
@@ -396,10 +397,6 @@ function resizeImageToBase64(file) {
         reader.readAsDataURL(file);
     });
 }
-
-onAuthStateChanged(auth, (user) => {
-    window.currentUser = user;
-});
 
 // ── Init ──
 
