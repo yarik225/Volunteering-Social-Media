@@ -40,18 +40,19 @@
         <button class="sort-btn" data-sort="distance">Distance</button>
     </div>
 
-    <div class="event-group">
-    <div class="section-header">
-        <h2>Your Events:</h2>
-        <button class="toggle-arrow" id="toggleYours">▼</button>
-    </div>
-    <div class="collapsible-grid" id="yourEventsWrapper">
-        <div class="card-grid" id="yourEventsGrid"></div>
-    </div>
-</div>
-
     <!-- Main -->
     <main class="main-content">
+
+        <!-- Your Events -->
+        <div class="event-group">
+            <div class="section-header">
+                <h2>Your Events:</h2>
+                <button class="toggle-arrow" id="toggleYours">▼</button>
+            </div>
+            <div class="collapsible-grid" id="yourEventsWrapper">
+                <div class="card-grid" id="yourEventsGrid"></div>
+            </div>
+        </div>
 
         <!-- Opportunities For You -->
         <div class="event-group" id="opportunitiesGroup">
@@ -70,13 +71,13 @@
 
     <!-- Bottom Bar -->
     <footer class="bottom-bar">
-        <div style="width: 26px;"></div>
-
+        <div style="flex: 1;"></div>
         <div class="fab-container">
             <button class="fab-button" id="fabButton">+</button>
         </div>
-
+        <div style="flex: 5;"></div>
         <i class="fa-solid fa-circle-exclamation" id="openReportModal" title="Report Feedback"></i>
+        <div style="flex: 1;"></div>
     </footer>
 
     <!-- New Event Modal -->
