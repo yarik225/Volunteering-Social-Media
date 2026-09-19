@@ -308,7 +308,7 @@ submitBtn.addEventListener("click", async () => {
     }
 
     try {
-        await window.addDoc(window.collection(window.db, "events"), {
+        await addDoc(collection(db, "events"), {
             title,
             date,
             time,

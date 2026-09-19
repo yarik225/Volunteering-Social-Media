@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHS Volunteering - Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
         * {
             margin: 0;
@@ -292,6 +293,97 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Modal Overlay & Display */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active { 
+            display: flex !important; 
+        }
+
+        .modal-content {
+            background-color: #fce88d;
+            width: 500px;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            width: 120px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="time"] {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .flyer-group { align-items: flex-start; }
+
+        .upload-box {
+            background-color: white;
+            flex: 1;
+            height: 150px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+
+        .upload-box i { font-size: 2.5rem; margin-bottom: 10px; }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #2d5a27;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+ </style>
  </style>
 </head>
 <body>
@@ -300,9 +392,9 @@
             <div class="brand">
                 <h1>SHS Volunteering</h1>
                 <div class="nav-links">
-                    <a href="index.html">Home</a>
-                    <a href="#">Events</a>
-                    <a href="profile.html" class="active">Profile</a>
+                    <a href="/">Home</a>
+                    <a href="/events.html">Events</a>
+                    <a href="" class="active">Profile</a>
                 </div>
             </div>
             <div class="logo-container">
@@ -325,6 +417,8 @@
             <div class="user-details">
                 <h2>Pat Riot</h2>
                 <p>Class of 2027</p>
+                <button id="profileLoginBtn" class="submit-btn" style="display: none; margin-top: 10px; width: auto; padding: 8px 16px;">Sign in with Google</button>
+                <h6>USE YOUR PERSONAL GOOGLE ACCOUNT!!! <u>NOT YOUR SHS ACCOUNT!!!</u></h6>
             </div>
         </section>
         <section class="saved-section">
@@ -339,10 +433,50 @@
     <footer class="bottom-bar">
         <i class="fa-regular fa-comment-dots"></i>
         <div class="fab-container">
-            <button class="fab-button">+</button>
+            <button class="fab-button" id="fabButton">+</button>
         </div>
         <i class="fa-regular fa-bookmark"></i>
     </footer>
+
+    <!-- New Event Modal -->
+    <div class="modal-overlay" id="eventModal">
+        <div class="modal-content">
+            <h2>New Event</h2>
+
+            <div class="form-group">
+                <label>Title:</label>
+                <input type="text" id="eventTitle" placeholder="Event title">
+            </div>
+
+            <div class="form-group">
+                <label>Date:</label>
+                <input type="date" id="eventDate">
+            </div>
+
+            <div class="form-group">
+                <label>Time:</label>
+                <input type="time" id="eventTime">
+            </div>
+
+            <div class="form-group">
+                <label>End Time:</label>
+                <input type="time" id="eventEndTime">
+            </div>
+
+            <div class="form-group flyer-group">
+                <label>Flyer Upload:</label>
+                <div class="upload-box" id="uploadBox">
+                    <i class="fa-solid fa-upload"></i>
+                    <span id="uploadText">Upload file here</span>
+                    <input type="file" hidden id="fileInput" accept="image/*">
+                </div>
+            </div>
+
+            <button id="loginBtn" class="submit-btn">Sign in with Google</button>
+            <button class="submit-btn" id="submitEvent">Create Event</button>
+            <button class="close-btn" id="closeModal">×</button>
+        </div>
+    </div>
 
 
     <script>
@@ -372,10 +506,17 @@
         });
     </script>
 
-    <script type="module">
-       
+<script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged, 
+            signInWithPopup, 
+            GoogleAuthProvider, 
+            setPersistence, 
+            browserLocalPersistence 
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyD0UdRmr0CM8ZlxuAeArIw2Pl5LiJAmZIg",
@@ -389,27 +530,127 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
 
         const nameEl = document.querySelector(".user-details h2");
         const classEl = document.querySelector(".user-details p");
+        const profileLoginBtn = document.getElementById("profileLoginBtn");
 
-        // 👇 THIS keeps user logged in automatically
+        await setPersistence(auth, browserLocalPersistence);
+        const provider = new GoogleAuthProvider();
+
+        if (profileLoginBtn) {
+            profileLoginBtn.addEventListener("click", async () => {
+                try {
+                    await signInWithPopup(auth, provider);
+                } catch (err) {
+                    console.error("Login failed:", err);
+                }
+            });
+        }
+
         onAuthStateChanged(auth, (user) => {
+            currentUser = user;
             if (user) {
-            nameEl.textContent = user.displayName || "No Name";
+                nameEl.textContent = user.displayName || "No Name";
+                classEl.textContent = user.email;
+                if (profileLoginBtn) profileLoginBtn.style.display = "none";
 
-            // show email instead of "Class of 2027" (optional)
-            classEl.textContent = user.email;
-
-            if (user.photoURL) {
-                profileImage.src = user.photoURL;
-                profileImage.style.display = "block";
-                pfpText.style.display = "none";
-            }
+                if (user.photoURL) {
+                    profileImage.src = user.photoURL;
+                    profileImage.style.display = "block";
+                    pfpText.style.display = "none";
+                }
             } else {
-            // not logged in
-            nameEl.textContent = "Not logged in";
-            classEl.textContent = "";
+                nameEl.textContent = "Not logged in";
+                classEl.textContent = "";
+                if (profileLoginBtn) profileLoginBtn.style.display = "inline-block";
+            }
+        });
+
+        // Modal Logic
+        const fabButton = document.getElementById("fabButton");
+        const modal = document.getElementById("eventModal");
+        const closeModal = document.getElementById("closeModal");
+        const submitBtn = document.getElementById("submitEvent");
+        const uploadBox = document.getElementById("uploadBox");
+        const fileInput = document.getElementById("fileInput");
+        const uploadText = document.getElementById("uploadText");
+
+        fabButton.addEventListener("click", () => modal.classList.add("active"));
+        closeModal.addEventListener("click", () => modal.classList.remove("active"));
+        window.addEventListener("click", (e) => {
+            if (e.target === modal) modal.classList.remove("active");
+        });
+
+        uploadBox.addEventListener("click", () => fileInput.click());
+        fileInput.addEventListener("change", () => {
+            uploadText.textContent = fileInput.files.length > 0 ? fileInput.files[0].name : "Upload file here";
+        });
+
+        function resizeImageToBase64(file) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                const reader = new FileReader();
+                reader.onload = e => img.src = e.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = 200;
+                    canvas.height = 200;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, 200, 200);
+                    resolve(canvas.toDataURL("image/jpeg", 0.7));
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        submitBtn.addEventListener("click", async () => {
+            if (!currentUser) {
+                alert("Please sign in first.");
+                return;
+            }
+
+            const title = document.getElementById("eventTitle").value.trim();
+            const date = document.getElementById("eventDate").value;
+            const time = document.getElementById("eventTime").value;
+            const endTime = document.getElementById("eventEndTime").value;
+
+            if (!title) {
+                alert("Please enter an event title.");
+                return;
+            }
+
+            let imageBase64 = null;
+            if (fileInput.files.length > 0) {
+                imageBase64 = await resizeImageToBase64(fileInput.files[0]);
+            }
+
+            try {
+                await addDoc(collection(db, "events"), {
+                    title,
+                    date,
+                    time,
+                    endTime,
+                    imageBase64,
+                    user: currentUser.displayName,
+                    createdAt: new Date()
+                });
+
+                modal.classList.remove("active");
+                document.getElementById("eventTitle").value = "";
+                document.getElementById("eventDate").value = "";
+                document.getElementById("eventTime").value = "";
+                document.getElementById("eventEndTime").value = "";
+                fileInput.value = "";
+                uploadText.textContent = "Upload file here";
+                alert("Event posted successfully!");
+
+            } catch (err) {
+                console.error(err);
+                alert("Error saving event");
             }
         });
     </script>
