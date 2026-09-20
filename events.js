@@ -52,13 +52,10 @@ const API_KEY = "AIzaSyCGh11mVrfvEYEY--H8D4THUxPC2axbjeM";
 const SPREADSHEET_ID = "11mestl91E6M6gFYVKHqBTtW6R-jzMWajS0qpzalra4w";
 const SHEET_NAME = "Sheet1!A1:F64";
 
-// ── Data Store ──
 const yourEvents = [];
 
-// ── Sort State ──
 let currentSort = "datetime";
 
-// ── DOM References ──
 const modal      = document.getElementById("eventModal");
 const fabButton  = document.getElementById("fabButton");
 const closeModal = document.getElementById("closeModal");
@@ -67,23 +64,12 @@ const uploadBox  = document.getElementById("uploadBox");
 const fileInput  = document.getElementById("fileInput");
 const uploadText = document.getElementById("uploadText");
 
-// ── Helpers ──
-
-/**
- * Returns a Date object combining an event's date + time fields.
- * Falls back to far-future values if fields are missing so undated
- * events sort to the end.
- */
 function parseDatetime(ev) {
     const d = ev.date || "9999-12-31";
     const t = ev.time || "23:59";
     return new Date(`${d}T${t}`);
 }
 
-/**
- * Returns a sorted copy of an array of event objects according to
- * the currently selected sort mode.
- */
 function sortEvents(arr) {
     return [...arr].sort((a, b) => {
         if (currentSort === "datetime") return parseDatetime(a) - parseDatetime(b);
@@ -93,8 +79,6 @@ function sortEvents(arr) {
         return 0;
     });
 }
-
-// ── Render: Your Events ──
 
 function renderYourEvents() {
     const grid = document.getElementById("yourEventsGrid");
@@ -116,7 +100,6 @@ function renderYourEvents() {
         title.textContent = ev.title;
         card.appendChild(title);
 
-        // Date / time meta
         const meta = document.createElement("p");
         meta.className = "card-meta";
         const datePart = ev.date
@@ -128,7 +111,6 @@ function renderYourEvents() {
         meta.textContent = [datePart, timePart].filter(Boolean).join(" · ");
         card.appendChild(meta);
 
-        // Flyer box
         const flyer = document.createElement("div");
         flyer.className = "flyer-box";
         if (ev.imageURL) {
@@ -144,15 +126,10 @@ function renderYourEvents() {
     });
 }
 
-// ── Render: Sheet Opportunities ──
-
 function renderOpportunities(data) {
     const grid = document.getElementById("opportunitiesGrid");
     grid.innerHTML = "";
 
-    // Map sheet rows to event objects
-    // Column layout: A=title, B=date (YYYY-MM-DD), C=time (HH:MM),
-    //                D=link, E=hours, F=Google Drive image ID, G=distance (optional)
     const rows = data.slice(1).map(row => ({
         title:    row[0] || "Untitled",
         date:     row[1] || "",
@@ -174,19 +151,16 @@ function renderOpportunities(data) {
         const card = document.createElement("div");
         card.className = "card";
 
-        // Title
         const title = document.createElement("p");
         title.className = "card-title";
         title.textContent = ev.title;
         card.appendChild(title);
 
-        // Date / time meta
         const meta = document.createElement("p");
         meta.className = "card-meta";
         meta.textContent = [ev.date, ev.time].filter(Boolean).join(" · ");
         card.appendChild(meta);
 
-        // Flyer box
         const flyer = document.createElement("div");
         flyer.className = "flyer-box";
         if (ev.imageId) {
@@ -201,7 +175,6 @@ function renderOpportunities(data) {
         }
         card.appendChild(flyer);
 
-        // Hours badge
         if (ev.hours) {
             const badge = document.createElement("span");
             badge.className = "card-badge";
@@ -209,7 +182,6 @@ function renderOpportunities(data) {
             card.appendChild(badge);
         }
 
-        // Click to open link
         if (ev.link && ev.link !== "#") {
             card.style.cursor = "pointer";
             card.addEventListener("click", () => window.open(ev.link, "_blank"));
@@ -218,8 +190,6 @@ function renderOpportunities(data) {
         grid.appendChild(card);
     });
 }
-
-// ── Fetch Sheet Data ──
 
 async function fetchSheetData() {
     try {
@@ -233,8 +203,6 @@ async function fetchSheetData() {
     }
 }
 
-// ── Sort Buttons ──
-
 document.querySelectorAll(".sort-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
@@ -245,14 +213,9 @@ document.querySelectorAll(".sort-btn").forEach(btn => {
     });
 });
 
-// ── Collapsible Sections ──
-
 function setupToggle(btnId, wrapperId) {
     const btn     = document.getElementById(btnId);
     const wrapper = document.getElementById(wrapperId);
-
-    // Start fully open
-    wrapper.style.maxHeight = wrapper.scrollHeight + "px";
 
     btn.addEventListener("click", () => {
         const isOpen = wrapper.style.maxHeight !== "0px";
@@ -266,15 +229,11 @@ function setupToggle(btnId, wrapperId) {
     });
 }
 
-// ── Modal: Open / Close ──
-
 fabButton.addEventListener("click",  () => modal.classList.add("active"));
 closeModal.addEventListener("click", () => modal.classList.remove("active"));
 window.addEventListener("click", e => {
     if (e.target === modal) modal.classList.remove("active");
 });
-
-// ── Modal: File Upload Preview ──
 
 uploadBox.addEventListener("click", () => fileInput.click());
 fileInput.addEventListener("change", () => {
@@ -282,8 +241,6 @@ fileInput.addEventListener("change", () => {
         ? fileInput.files[0].name
         : "Upload file here";
 });
-
-// ── Modal: Create Event ──
 
 submitBtn.addEventListener("click", async () => {
     if (!window.currentUser) {
@@ -320,7 +277,6 @@ submitBtn.addEventListener("click", async () => {
 
         modal.classList.remove("active");
 
-        // reset form
         document.getElementById("eventTitle").value = "";
         document.getElementById("eventDate").value = "";
         document.getElementById("eventTime").value = "";
@@ -359,8 +315,6 @@ function listenToFirebaseEvents() {
     });
 }
 
-// ── Search ──
-
 document.getElementById("searchInput").addEventListener("input", function () {
     const query = this.value.toLowerCase();
     document.querySelectorAll(".card").forEach(card => {
@@ -385,7 +339,7 @@ function resizeImageToBase64(file) {
             const ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, 200, 200);
 
-            resolve(canvas.toDataURL("image/jpeg", 0.7)); // compressed
+            resolve(canvas.toDataURL("image/jpeg", 0.7));
         };
 
         reader.readAsDataURL(file);
@@ -401,8 +355,6 @@ async function init() {
     renderYourEvents();
     listenToFirebaseEvents();
     
-
-    // Wait for DOM to settle before measuring heights for collapsibles
     setTimeout(() => {
         setupToggle("toggleYours", "yourEventsWrapper");
         setupToggle("toggleOpps",  "oppsWrapper");

@@ -12,29 +12,24 @@ const uploadBox = document.getElementById('uploadBox');
 const uploadText = document.getElementById('uploadText');
 const fileInput = document.getElementById('fileInput');
 
-// Open modal when plus is clicked
 fabButton.addEventListener('click', () => {
     modal.classList.add('active');
 });
 
-// Close modal when X is clicked
 closeModal.addEventListener('click', () => {
     modal.classList.remove('active');
 });
 
-// Close modal if user clicks outside the yellow box
 window.addEventListener('click', (e) => {
     if (e.target === modal) {
         modal.classList.remove('active');
     }
 });
 
-// Clicking upload box should open file chooser
 uploadBox.addEventListener('click', () => {
     fileInput.click();
 });
 
-// Show selected file name
 fileInput.addEventListener('change', () => {
     if (fileInput.files.length > 0) {
         uploadText.textContent = fileInput.files[0].name;
@@ -43,7 +38,6 @@ fileInput.addEventListener('change', () => {
     }
 });
 
-// Handle event creation
 submitBtn.addEventListener('click', () => {
     const title = titleInput.value.trim();
     const time = timeInput.value.trim();
@@ -52,7 +46,6 @@ submitBtn.addEventListener('click', () => {
         return;
     }
 
-    // build card HTML
     const card = document.createElement('div');
     card.className = 'card';
 
@@ -81,11 +74,9 @@ submitBtn.addEventListener('click', () => {
     }
     card.appendChild(flyer);
 
-    // append to your events grid
     const yourGrid = document.querySelector('#yourEvents .card-grid');
     yourGrid.appendChild(card);
 
-    // reset form and close modal
     titleInput.value = '';
     timeInput.value = '';
     fileInput.value = '';
@@ -121,10 +112,6 @@ function displayData(targetDivId, data) {
         const item = document.createElement("div");
         item.className = "row";
 
-
-        // row[#] is getting the column # at a selected row
-        // So like, row[0] for example means that at the selected row we are getting the 0th column (Column A)
-        //Adjust this based on the structure you decide, this is just an example
         item.innerHTML = `
             <p><strong>${row[0] || ""}</strong></p>
             <p>${row[1] || ""}</p>
